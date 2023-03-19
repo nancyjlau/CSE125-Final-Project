@@ -1,18 +1,23 @@
-# CSE x25 Lab 1, Part 1
-# If you have iverilog or verilator installed in a non-standard path,
-# you can override these to specify the path to the executable.
+# Makefile
+
 IVERILOG ?= iverilog
 VERILATOR ?= verilator
+ICEPROG ?= iceprog
+ICEPACK ?= icepack
+ICETIME ?= icetime
+NEXTPNR ?= nextpnr-ice40
+YOSYS ?= yosys
 
-## DO NOT MODIFY ANYTHING BELOW THIS LINE
+PCF_PATH = icebreaker.pcf
 
-# We will always provide these six targets:
 help:
-	@echo "make [help|lint|test|all]"
+	@echo "make [help|lint|test|all|bitstream|program]"
 	@echo "  help: Print this message."
 	@echo "  lint: Run the Verilator linter on all source files."
 	@echo "  test: Run all testbenches and generate the simulation log files."
 	@echo "  all: Run the lint target, and if it passes, run the test target."
+	@echo "  bitstream: Generate the bitstream for the iCEbreaker FPGA."
+	@echo "  program: Program the iCEbreaker FPGA with the bitstream."
 	@echo "  clean: Remove all compiler outputs."
 	@echo "  extraclean: Remove all generated files (runs clean)."
 	@echo ""
@@ -20,11 +25,11 @@ help:
 	@echo "    IVERILOG: Override this variable on the CLI to set the location of your Icarus Verilog executable."
 	@echo "    VERILATOR: Override this variable on the CLI to set the location of your Verilator  executable."
 
-# lint runs the Verilator linter on your code. 
+# lint runs the Verilator linter 
 lint:
 	$(VERILATOR) --lint-only -sv --timing tb_tdc.sv -I.
 
-# test runs the simulation logs that you will check into git
+# test runs the simulation logs 
 test: iverilog.log
 
 # all runs the lint target, and if it passes, the test target
@@ -50,4 +55,18 @@ extraclean: clean
 	rm -f $(ISIM_LOG)
 	rm -f $(ISIM_WAV)
 
-.PHONY: $(ISIM_LOG) help lint test all clean extraclean
+bitstream: tdc.bin
+
+tdc.json: tdc.v
+	$(YOSYS) -p 'synth_ice40 -top tdc -json tdc.json' tdc.v
+
+tdc.asc: tdc.json icebreaker.pcf
+	$(NEXTPNR) --up5k --package sg48 --json tdc.json --pcf
+
+prog: top.bin
+	$(ICEPROG) $<
+
+top.json: top.sv $(SYNTH_SOURCES)
+	$(YOSYS) -p 'synth_ice40 -top top -json $@' $<
+
+.PHONY: $(ISIM_LOG) help lint test all clean extraclean bitstream program
