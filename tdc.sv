@@ -1,4 +1,5 @@
-module tdc (#parameter num_stages = 5)(
+module tdc #(parameter num_stages = 5)
+(
   input logic clk,
   input logic reset,
   input logic [7:0] uart_data,
