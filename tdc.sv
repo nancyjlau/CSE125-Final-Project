@@ -12,19 +12,19 @@ module tdc (#parameter num_stages = 5)(
     if (reset) begin
       delay_line <= '0;
     end else begin
-      delay_line[4:1] <= delay_line[3:0];
-      delay_line[0] <= uart_data;
+      delay_line <= {delay_line[3:0], uart_data};
     end
   end
 
   // save stage_delays to delay_line
   always_ff @(posedge clk) begin
-    for (int i = 0; i < num_stages; i++) begin
-        stage_delays[i] <= delay_line[i];
+    if (reset) begin
+      stage_delays <= '0;
+    end else begin
+      for (int i = 0; i < num_stages; i++) begin
+          stage_delays[i] <= delay_line[i];
+      end
     end
   end
-
-  // at reset, stage_delays should be 0
-  assign stage_delays[4:0] = reset ? '0 : stage_delays[4:0];
 
 endmodule
