@@ -12,12 +12,12 @@ module tdc #(parameter num_stages = 10)
   // measure delay between input pulse signal and UART data signal 
   always_ff @(posedge clk) begin
     if (reset) begin
-      delay_line <= 9'b0;
+      delay_line <= 10'b0;
     end else begin
       delay_line <= {delay_line[8:0], uart_data};
     end
   end
-  
+
   // save stage_delays to delay_line
   always_ff @(posedge clk) begin
     if (reset) begin
