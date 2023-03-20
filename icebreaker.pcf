@@ -1,0 +1,7 @@
+# 12 MHz clock
+set_io -nowarn clk        35
+set_frequency clk 12
+
+# RS232
+set_io -nowarn uart_rx          6
+set_io -nowarn uart_tx          9

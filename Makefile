@@ -27,7 +27,7 @@ help:
 
 # lint runs the Verilator linter 
 lint:
-	$(VERILATOR) --lint-only -sv --timing tb_tdc.sv -I.
+	$(VERILATOR) --lint-only -sv --timing src/tb_tdc.sv -I.
 
 # test runs the simulation logs 
 test: iverilog.log
@@ -39,8 +39,8 @@ all: lint test
 ISIM_EXE := iverilog-tb
 ISIM_LOG := iverilog.log
 ISIM_WAV := iverilog.vcd
-$(ISIM_EXE): tdc.sv tb_tdc.sv
-	$(IVERILOG) -g2005-sv -o $(ISIM_EXE) tdc.sv tb_tdc.sv 
+$(ISIM_EXE): src/tdc.sv src/tb_tdc.sv
+	$(IVERILOG) -g2005-sv -o $(ISIM_EXE) src/tdc.sv src/tb_tdc.sv 
 
 $(ISIM_LOG): $(ISIM_EXE)
 	./$(ISIM_EXE) | tee iverilog.log
@@ -58,7 +58,7 @@ extraclean: clean
 bitstream: tdc.bin
 
 tdc.json: tdc.v
-	$(YOSYS) -p 'synth_ice40 -top tdc -json tdc.json' tdc.v
+	$(YOSYS) -p 'synth_ice40 -top tdc -json tdc.json' src/tdc.v
 
 tdc.asc: tdc.json icebreaker.pcf
 	$(NEXTPNR) --up5k --package sg48 --json tdc.json --pcf
