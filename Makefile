@@ -11,13 +11,13 @@ YOSYS ?= yosys
 PCF_PATH = icebreaker.pcf
 
 help:
-	@echo "make [help|lint|test|all|bitstream|program]"
+	@echo "make [help|lint|test|all|bitstream|prog]"
 	@echo "  help: Print this message."
 	@echo "  lint: Run the Verilator linter on all source files."
 	@echo "  test: Run all testbenches and generate the simulation log files."
 	@echo "  all: Run the lint target, and if it passes, run the test target."
 	@echo "  bitstream: Generate the bitstream for the iCEbreaker FPGA."
-	@echo "  program: Program the iCEbreaker FPGA with the bitstream."
+	@echo "  prog: Program the iCEbreaker FPGA with the bitstream."
 	@echo "  clean: Remove all compiler outputs."
 	@echo "  extraclean: Remove all generated files (runs clean)."
 	@echo ""
