@@ -9,6 +9,7 @@ module tdc #(parameter num_stages = 10)
 
   logic [num_stages-1:0] delay_line;
 
+/* verilator lint_off WIDTH */
   // measure delay between input pulse signal and UART data signal 
   always_ff @(posedge clk) begin
     if (reset) begin
