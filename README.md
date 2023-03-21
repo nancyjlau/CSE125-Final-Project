@@ -34,7 +34,7 @@ code/
 ## Build Process
 
 1. Clone the repository using Git:  
-`` git@github.com:nancyjlau/CSE125-Final-Project.git``
+`` git clone git@github.com:nancyjlau/CSE125-Final-Project.git``
 
 2. Install the necessary tools:
 
