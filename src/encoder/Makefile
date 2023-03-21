@@ -9,7 +9,7 @@ NEXTPNR ?= nextpnr-ice40
 YOSYS ?= yosys
 
 help:
-	@echo "make [help|lint|test|all|bitstream|prog]"
+	@echo "make [help|lint]"
 	@echo "  help: Print this message."
 	@echo "  lint: Run the Verilator linter on all source files."
 
