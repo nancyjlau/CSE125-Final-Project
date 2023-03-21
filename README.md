@@ -53,7 +53,7 @@ This guide assumes the user has CMake installed.
     - Linux  
        - Run:   ```sudo apt-get install yosys nextpnr-ice40 project-icestorm verilator iverilog```
     - MacOS
-      - Have [Hombrew](https://brew.sh/) installed
+      - Have [Homebrew](https://brew.sh/) installed
       - Run: ``brew install icarus-verilog verilator``
       - Run: ``brew tap ktemkin/oss-fpga``
       - Run: ``brew install --HEAD icestorm yosys nextpnr-ice40``
